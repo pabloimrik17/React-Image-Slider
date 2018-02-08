@@ -3,13 +3,16 @@ import request from 'superagent';
 import BackArrow from "./Arrows/BackArrow";
 import NextArrow from "./Arrows/NextArrow";
 
-class Photo extends Component {
+class Slider extends Component {
     constructor(props) {
         super(props);
         this.state = {
             photos: [],
             slideCount: 0,
-        }
+        };
+
+        this.nextImage = this.nextImage.bind(this);
+        this.previousImage = this.previousImage.bind(this);
     }
 
     render() {
@@ -21,7 +24,7 @@ class Photo extends Component {
                         return (
                             <div key={photo.id} style={{margin: '0 auto'}}>
                                 <img src={photo.images.standard_resolution.url} alt=''/>
-                                <div style={{width: '600px', margin: '24px auto', fontStyle: 'italic'}}>
+                                <div style={{width: '600px',  margin: '24px auto', fontStyle: 'italic'}}>
                                     {photo.caption !== null ? photo.caption.text : ''}
                                 </div>
                             </div>
@@ -48,6 +51,15 @@ class Photo extends Component {
                 });
             })
     }
+
+    previousImage() {
+        this.setState({ slideCount: this.state.slideCount - 1});
+    }
+
+    nextImage() {
+        console.log(this.state.slideCount);
+        this.setState({ slideCount: this.state.slideCount + 1});
+    }
 }
 
-export default Photo;
+export default Slider;
