@@ -1,27 +1,35 @@
 import React, {Component} from 'react';
 import request from 'superagent';
+import BackArrow from "./Arrows/BackArrow";
+import NextArrow from "./Arrows/NextArrow";
 
 class Photo extends Component {
     constructor(props) {
         super(props);
         this.state = {
             photos: [],
+            slideCount: 0,
         }
     }
 
     render() {
         return (
-            <div>
+            <div style={{display: 'flex', alignItems: 'center', justifyContent: 'center', marginTop: '30px'}}>
+                {this.state.slideCount !== 0 ? <BackArrow previousImage={this.previousImage}/> : ''}
                 {this.state.photos.map((photo, key) => {
-                    return (
-                        <div key={photo.id}>
-                            <img src={photo.images.standard_resolution.url} alt={photo.caption}/>
-                            <div style={{width: '600px', margin: '24px auto', fontStyle: 'italic'}}>
-                                {photo.caption !== null ? photo.caption.text : ''}
+                    if (this.state.photos.indexOf(photo) === this.state.slideCount) {
+                        return (
+                            <div key={photo.id} style={{margin: '0 auto'}}>
+                                <img src={photo.images.standard_resolution.url} alt=''/>
+                                <div style={{width: '600px', margin: '24px auto', fontStyle: 'italic'}}>
+                                    {photo.caption !== null ? photo.caption.text : ''}
+                                </div>
                             </div>
-                        </div>
-                    )
+                        )
+                    }
+                    return ''
                 })}
+                {this.state.slideCount !== (this.state.photos.length -1) ? <NextArrow nextImage={this.nextImage}/> : ''}
             </div>
         );
     }
